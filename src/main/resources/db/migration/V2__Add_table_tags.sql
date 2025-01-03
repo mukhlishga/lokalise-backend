@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS tags
+(
+    id BIGSERIAL,
+    name VARCHAR NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    PRIMARY KEY (id)
+);

@@ -1,0 +1,53 @@
+[
+  {
+    "page_name": "review_transport_order",
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "image_url": "link_to_image",
+    "locale": [
+      {
+        "name": "Low balance: <coins_balance>",
+        "values": {
+          "en": "Low balance: <coins_balance>",
+          "id": "Saldomu kurang: <coins_balance>",
+          "vn": "Số dư thấp: <coins_balance>"
+        }
+      }
+    ]
+  },
+  {
+    "page_name": "online_brand_promotion",
+    "tags": [
+      "tag1",
+    ],
+    "image_url": "link_to_image",
+    "locale": [
+      {
+        "name": "mergedpayment_brandpage_nopromo_title",
+        "values": {
+          "en": "Fast & secure payment",
+          "id": "Bayar cepat & aman",
+          "vn": "Thanh toán nhanh & an toàn"
+        }
+      },
+      {
+        "name": "mergedpayment_brandpage_nopromo_description",
+        "values": {
+          "en": "Transact on <merchant> to get what you want. We’ll let you know when they’ve got promos!",
+          "id": "Transaksi langsung di <merchant> buat dapetin yang kamu mau. Kami bakal kabarin kalo mereka lagi ada promo!",
+          "vn": "Giao dịch trên <merchant> để có những gì bạn muốn. Chúng tôi sẽ thông báo cho bạn khi họ có khuyến mãi!"
+        }
+      },
+      {
+        "name": "promotion_brandpage_payatmerchant_cta",
+        "values": {
+          "en": "Pay at <merchant_name>",
+          "id": "Transaksi di <merchant_name>",
+          "vn": "Thanh toán tại <merchant_name>"
+        }
+      }
+    ]
+  }
+]

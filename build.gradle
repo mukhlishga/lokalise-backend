@@ -1,0 +1,98 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'pmd'
+    id 'org.flywaydb.flyway' version '6.4.1'
+    id 'io.freefair.lombok' version '5.3.0'
+}
+
+group 'com.lokalise'
+
+application {
+    mainClassName 'com.lokalise.App'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.sparkjava:spark-core:2.7.2'
+    implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'com.getsentry.raven:raven-logback:8.0.3'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.232'
+
+    implementation 'org.jdbi:jdbi:2.78'
+    implementation 'org.postgresql:postgresql:42.2.5'
+    implementation 'com.zaxxer:HikariCP:3.1.0'
+    implementation 'org.flywaydb:flyway-core:6.4.1'
+    implementation 'org.antlr:stringtemplate:3.2.1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+pmd {
+    consoleOutput = true
+    toolVersion '6.20.0'
+    ruleSetFiles = files("$project.rootDir/rules-pmd.xml")
+    sourceSets = [sourceSets.main, sourceSets.test]
+    reportsDir = file("$project.buildDir/reports/pmd")
+    ruleSets = []
+}
+
+task flywayMigrateDb(type: JavaExec) {
+    main 'com.lokalise.db.migration.flyway.Migration'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+test {
+    environment("APP_ENVIRONMENT", "test")
+    testLogging {
+        events TestLogEvent.FAILED,
+            TestLogEvent.PASSED,
+            TestLogEvent.SKIPPED
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        debug {
+            events TestLogEvent.STARTED,
+                TestLogEvent.FAILED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED
+            exceptionFormat TestExceptionFormat.FULL
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
+}
+
+task startServer(type: JavaExec) {
+    main = 'com.lokalise.App'
+    description = "Starts the Lokalise service"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties = [
+        "user.timezone": "UTC"
+    ]
+}

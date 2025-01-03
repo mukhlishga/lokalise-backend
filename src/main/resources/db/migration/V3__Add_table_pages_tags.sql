@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS pages_tags
+(
+    id BIGSERIAL,
+    page_id BIGINT NOT NULL,
+    tag_id BIGINT NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    PRIMARY KEY (id)
+);
