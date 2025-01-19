@@ -16,7 +16,7 @@ My project at GoTo/Gojek Hackathon 2024, won 2nd place out of 95 teams/371 parti
    createdb -h localhost -U postgres -O my_username lokalise_db
    ```
 
-2. Setup example application.yml
+2. Add required configs in application.yml
    ```
    DB_NAME: lokalise_db
    DB_HOST: localhost
@@ -34,3 +34,8 @@ My project at GoTo/Gojek Hackathon 2024, won 2nd place out of 95 teams/371 parti
    ```
    ./gradlew run
    ```
+
+5. Short demo
+<p align="center">
+  <img src="https://github.com/mukhlishga/lokalise-backend/blob/main/Lokalise%20Pro%20Max.gif" alt="lokalise-pro-max-demo" />
+</p>
